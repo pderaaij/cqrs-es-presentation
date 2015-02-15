@@ -1,0 +1,12 @@
+{
+    "name": "pderaaij/cepres",
+    "description": "Demo code for presentation on CQRS and Event Sourcing",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paul de Raaij",
+            "email": "paul@paulderaaij.nl"
+        }
+    ],
+    "require": {}
+}
