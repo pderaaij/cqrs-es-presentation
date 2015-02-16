@@ -10,3 +10,7 @@ requirements.
 * Displaying Product information
 * Editing Product information
 * Ordering a product 
+
+# Prerequisites
+In order to use this application make sure you have at least PHP 5.5 installed. Besides
+that you have to have `sqlite3` installed. This light SQL database is used for the example.
