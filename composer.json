@@ -1,5 +1,5 @@
 {
-    "name": "pderaaij/cepres",
+    "name": "pderaaij/cespres",
     "description": "Demo code for presentation on CQRS and Event Sourcing",
     "license": "MIT",
     "authors": [
@@ -15,5 +15,8 @@
     },
     "autoload": {
         "psr-4": {"CESPres\\": "src/"}
+    },
+    "scripts": {
+        "init-sqlite-db": "CESPres\\Utilities\\DatabaseInitialization::init"
     }
 }
