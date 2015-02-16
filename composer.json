@@ -8,5 +8,12 @@
             "email": "paul@paulderaaij.nl"
         }
     ],
-    "require": {}
+    "require": {
+        "symfony/http-foundation": "v2.6.4",
+        "symfony/http-kernel": "v2.6.4",
+        "symfony/routing": "2.6.4"
+    },
+    "autoload": {
+        "psr-4": {"CESPres\\": "src/"}
+    }
 }
