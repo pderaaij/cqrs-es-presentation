@@ -10,6 +10,14 @@ $routes->add(
     )
 );
 
+$routes->add(
+    'product_view', 
+    new Symfony\Component\Routing\Route(
+        '/product/{productId}', 
+        array('_controller' => '\CESPres\Product\Controllers\ProductController::index')
+    )
+);
+
 $request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
 $matcher = new Symfony\Component\Routing\Matcher\UrlMatcher($routes, new \Symfony\Component\Routing\RequestContext());
