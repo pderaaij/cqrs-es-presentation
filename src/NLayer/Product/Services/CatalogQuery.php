@@ -1,7 +1,7 @@
 <?php
 namespace CESPres\Product\Services;
 
-use \CESPres\Services\Database\Manager;
+use \CESPres\Core\Services\Database\Manager;
 
 /**
  * Description of CatalogQuery
@@ -26,10 +26,8 @@ class CatalogQuery
         
         $product = new \CESPres\Product\Models\Product();
         $product->setProductId($productData['productId']);
-        $product->setName($productData['name']);
-        $product->setDescription($productData['description']);
-        $product->setSalesPrice($productData['salesPrice']);
-        
+        $product->setName($productData['internalName']);
+
         return $product;
     }
 }
