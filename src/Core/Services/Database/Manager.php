@@ -12,10 +12,7 @@ class Manager
     private $sqliteConnection;
     
     public function __construct() {
-        /**
-         * @todo Change path, inject database
-         */
-        $this->sqliteConnection = new \SQLite3("/var/www/cqrs-es-presentation/cqrs-es-db.sqlite");
+        $this->sqliteConnection = new \SQLite3(SQLITE_DB_PATH);
         $this->sqliteConnection->enableExceptions(true);
     }
 

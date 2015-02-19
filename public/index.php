@@ -3,6 +3,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 require "./../vendor/autoload.php";
 
+define('SQLITE_DB_PATH', realpath(__DIR__ . '/../cqrs-es-db.sqlite'));
+
 $routes = new Symfony\Component\Routing\RouteCollection();
 $routes->add(
     'index', 
