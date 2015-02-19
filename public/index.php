@@ -1,4 +1,6 @@
 <?php
+use Symfony\Component\HttpKernel\KernelEvents;
+
 require "./../vendor/autoload.php";
 
 $routes = new Symfony\Component\Routing\RouteCollection();
@@ -22,9 +24,9 @@ $request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
 $matcher = new Symfony\Component\Routing\Matcher\UrlMatcher($routes, new \Symfony\Component\Routing\RequestContext());
 
-
 $dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
 $dispatcher->addSubscriber(new Symfony\Component\HttpKernel\EventListener\RouterListener($matcher));
+$dispatcher->addListener(KernelEvents::EXCEPTION, array(new \CESPres\Website\Listeners\WebsiteExceptionListener(), 'onKernelException'));
 
 $resolver = new Symfony\Component\HttpKernel\Controller\ControllerResolver();
 $kernel = new Symfony\Component\HttpKernel\HttpKernel($dispatcher, $resolver);

@@ -8,6 +8,10 @@ namespace CESPres\NLayer\Core\Entities;
  */
 class BaseEntity implements \JsonSerializable {
 
+    /**
+     * Populate an entity with data.
+     * @param $entityData
+     */
     public function populate($entityData) {
         foreach($entityData as $field => $value) {
             if(property_exists($this, $field)) {

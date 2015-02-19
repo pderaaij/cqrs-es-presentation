@@ -3,6 +3,7 @@ namespace CESPres\NLayer\Product\Controllers;
 
 use CESPres\NLayer\Product\Services\CatalogQuery;
 use \Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Basic Product controller
@@ -14,7 +15,7 @@ class ProductController
     public function index($productId) {
         
         if(!is_numeric($productId)) {
-            return new Response("Invalid product id given", Response::HTTP_BAD_REQUEST);
+            throw new BadRequestHttpException("Invalid product id given");
         }
         
         $catalogQueryService = new CatalogQuery();

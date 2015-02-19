@@ -1,6 +1,7 @@
 <?php
 namespace CESPres\NLayer\Product\Services;
 
+use CESPres\Core\Exceptions\EntityNotFoundException;
 use CESPres\Core\Services\Database\Manager;
 use CESPres\NLayer\Product\Models\Product;
 
@@ -19,12 +20,12 @@ class CatalogQuery
     }
     
     public function findProductById($productId) {
-        /**
-         * @todo A LOT
-         */
-        $result = $this->databaseManager->executeQuery('select * from products where productId = ' . $productId);
-        $productData = $result->fetchArray(SQLITE3_ASSOC);
-        
+        $productData = $this->databaseManager->executeSearchQuery('select * from products where productId = ' . (int) $productId);
+
+        if($productData === null) {
+            throw new EntityNotFoundException("No product found with productId " . $productId);
+        }
+
         $product = new Product();
         $product->populate($productData);
 

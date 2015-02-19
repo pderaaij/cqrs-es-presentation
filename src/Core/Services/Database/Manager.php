@@ -16,9 +16,21 @@ class Manager
          * @todo Change path, inject database
          */
         $this->sqliteConnection = new \SQLite3("/var/www/cqrs-es-presentation/cqrs-es-db.sqlite");
+        $this->sqliteConnection->enableExceptions(true);
     }
-    
-    public function executeQuery($query) {
-        return $this->sqliteConnection->query($query);
+
+    /**
+     * @param $query
+     * @return array|null
+     */
+    public function executeSearchQuery($query) {
+        $queryResult = $this->sqliteConnection->query($query);
+        $resultSet = $queryResult->fetchArray(SQLITE3_ASSOC);
+
+        if ($resultSet !== false) {
+            return $resultSet;
+        }
+
+        return null;
     }
 }
