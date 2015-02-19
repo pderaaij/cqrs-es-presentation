@@ -6,7 +6,7 @@ $routes->add(
     'index', 
     new Symfony\Component\Routing\Route(
         '/', 
-        array('_controller' => '\CESPres\Controllers\Index::index')
+        array('_controller' => '\CESPres\Website\Controllers\Index::index')
     )
 );
 

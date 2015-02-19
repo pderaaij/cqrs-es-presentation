@@ -1,5 +1,5 @@
 <?php
-namespace CESPres\Controllers;
+namespace CESPres\Website\Controllers;
 
 use \Symfony\Component\HttpFoundation\Request;
 use \Symfony\Component\HttpFoundation\Response;

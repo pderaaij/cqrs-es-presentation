@@ -1,5 +1,5 @@
 <?php
-namespace CESPres\Services\Database;
+namespace CESPres\Core\Services\Database;
 
 /**
  * Description of Manager
