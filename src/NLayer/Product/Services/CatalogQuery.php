@@ -1,7 +1,8 @@
 <?php
-namespace CESPres\Product\Services;
+namespace CESPres\NLayer\Product\Services;
 
-use \CESPres\Core\Services\Database\Manager;
+use CESPres\Core\Services\Database\Manager;
+use CESPres\NLayer\Product\Models\Product;
 
 /**
  * Description of CatalogQuery
@@ -22,11 +23,10 @@ class CatalogQuery
          * @todo A LOT
          */
         $result = $this->databaseManager->executeQuery('select * from products where productId = ' . $productId);
-        $productData = $result->fetchArray();
+        $productData = $result->fetchArray(SQLITE3_ASSOC);
         
-        $product = new \CESPres\Product\Models\Product();
-        $product->setProductId($productData['productId']);
-        $product->setName($productData['internalName']);
+        $product = new Product();
+        $product->populate($productData);
 
         return $product;
     }

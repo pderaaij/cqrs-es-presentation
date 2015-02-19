@@ -1,58 +1,66 @@
 <?php
-namespace CESPres\Product\Models;
+namespace CESPres\NLayer\Product\Models;
+use CESPres\NLayer\Core\Entities\BaseEntity;
 
 /**
- * Representation of a Product
+ * Product entity used in the catalog.
  *
  * @author pderaaij
  */
-class Product
+class Product extends BaseEntity
 {
-    public $productId;
-    
-    public $name;
-    
-    public $description;
-    
-    public $salesPrice;
-    
+    protected $productId;
+
+    protected $internalName;
+
+    protected $active;
+
+    /**
+     * @return mixed
+     */
     public function getProductId()
     {
         return $this->productId;
     }
 
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function getSalesPrice()
-    {
-        return $this->salesPrice;
-    }
-
+    /**
+     * @param mixed $productId
+     */
     public function setProductId($productId)
     {
         $this->productId = $productId;
     }
 
-    public function setName($name)
+    /**
+     * @return mixed
+     */
+    public function getInternalName()
     {
-        $this->name = $name;
+        return $this->internalName;
     }
 
-    public function setDescription($description)
+    /**
+     * @param mixed $internalName
+     */
+    public function setInternalName($internalName)
     {
-        $this->description = $description;
+        $this->internalName = $internalName;
     }
 
-    public function setSalesPrice($salesPrice)
+    /**
+     * @return mixed
+     */
+    public function getActive()
     {
-        $this->salesPrice = $salesPrice;
+        return $this->active;
     }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
 }

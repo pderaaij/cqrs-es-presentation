@@ -13,8 +13,8 @@ $routes->add(
 $routes->add(
     'product_view', 
     new Symfony\Component\Routing\Route(
-        '/product/{productId}', 
-        array('_controller' => '\CESPres\Product\Controllers\ProductController::index')
+        '/nlayer/product/{productId}',
+        array('_controller' => '\CESPres\NLayer\Product\Controllers\ProductController::index')
     )
 );
 
