@@ -30,4 +30,14 @@ class Manager
 
         return null;
     }
+
+    public function updateQuery($query, $queryValues) {
+        $statement = $this->sqliteConnection->prepare($query);
+
+        foreach($queryValues as $field => $value) {
+            $statement->bindValue(':'.$field, $value);
+        }
+
+        $statement->execute();
+    }
 }

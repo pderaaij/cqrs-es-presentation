@@ -18,7 +18,12 @@ class CatalogService
     public function __construct() {
         $this->databaseManager = new Manager();
     }
-    
+
+    /**
+     * @param $productId
+     * @return Product
+     * @throws EntityNotFoundException
+     */
     public function findProductById($productId) {
         $productData = $this->databaseManager
             ->executeSearchQuery("select *
@@ -36,5 +41,16 @@ class CatalogService
         $product->populate($productData);
 
         return $product;
+    }
+
+    public function updateProduct(Product $product) {
+        $query = "update products SET internalName = :name, active = :active where productId = :productId";
+        $queryValues = array(
+            "name" => $product->getInternalName(),
+            "active" => $product->getActive(),
+            "productId" => $product->getProductId()
+        );
+
+        $this->databaseManager->updateQuery($query, $queryValues);
     }
 }
