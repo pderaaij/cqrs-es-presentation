@@ -2,6 +2,7 @@
 namespace CESPres\NLayer\Product\Controllers;
 
 use CESPres\Core\Exceptions\PersistenceException;
+use CESPres\NLayer\Product\Models\Product;
 use CESPres\NLayer\Product\Services\CatalogService;
 use Psr\Log\InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,6 +60,26 @@ class ProductController
         $catalogService->updateProduct($product);
 
         $response = new Response(null, Response::HTTP_NO_CONTENT);
+        return $response;
+    }
+
+    /**
+     * Add a new product to the catalog.
+     *
+     * @param Request $request
+     * @return Response
+     * @throws \CESPres\Core\Exceptions\EntityNotFoundException
+     */
+    public function put(Request $request) {
+        $requestBody = json_decode($request->getContent());
+
+        $catalogService = new CatalogService();
+        $product = new Product();
+        $product->populate($requestBody);
+        $insertedProductId = $catalogService->insertProduct($product);
+
+        $newProduct = $catalogService->findProductById($insertedProductId);
+        $response = new Response(json_encode($newProduct), Response::HTTP_CREATED);
         return $response;
     }
 }

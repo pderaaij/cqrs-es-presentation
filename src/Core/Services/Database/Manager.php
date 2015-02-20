@@ -2,7 +2,7 @@
 namespace CESPres\Core\Services\Database;
 
 /**
- * Description of Manager
+ * Database manager exposing generic query methods for the connected database.
  *
  * @author pderaaij
  */
@@ -17,6 +17,8 @@ class Manager
     }
 
     /**
+     * Execute a select query on the database.
+     *
      * @param $query
      * @return array|null
      */
@@ -31,7 +33,30 @@ class Manager
         return null;
     }
 
-    public function updateQuery($query, $queryValues) {
+    /**
+     * Execute update queries on the database.
+     *
+     * @param $query
+     * @param array $queryValues
+     */
+    public function updateQuery($query, array $queryValues) {
+        $statement = $this->sqliteConnection->prepare($query);
+
+        foreach($queryValues as $field => $value) {
+            $statement->bindValue(':'.$field, $value);
+        }
+
+       $statement->execute();
+    }
+
+    /**
+     * Execute an insert query on the database, returning the new identifier.
+     *
+     * @param $query
+     * @param array $queryValues
+     * @return int
+     */
+    public function insertQuery($query, array $queryValues) {
         $statement = $this->sqliteConnection->prepare($query);
 
         foreach($queryValues as $field => $value) {
@@ -39,5 +64,6 @@ class Manager
         }
 
         $statement->execute();
+        return $this->sqliteConnection->lastInsertRowID();
     }
 }

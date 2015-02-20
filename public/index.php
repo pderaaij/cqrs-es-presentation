@@ -33,6 +33,15 @@ $routes->add(
     )
 );
 
+$routes->add(
+    'product_create',
+    new Symfony\Component\Routing\Route(
+        '/nlayer/product',
+        array('_controller' => '\CESPres\NLayer\Product\Controllers\ProductController::put'),
+        array('_method' => \Symfony\Component\HttpFoundation\Request::METHOD_PUT)
+    )
+);
+
 $request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
 $requestContext = new \Symfony\Component\Routing\RequestContext();
 $requestContext->fromRequest($request);
