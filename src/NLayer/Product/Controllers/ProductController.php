@@ -1,7 +1,7 @@
 <?php
 namespace CESPres\NLayer\Product\Controllers;
 
-use CESPres\NLayer\Product\Services\CatalogQuery;
+use CESPres\NLayer\Product\Services\CatalogService;
 use \Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -18,7 +18,7 @@ class ProductController
             throw new BadRequestHttpException("Invalid product id given");
         }
         
-        $catalogQueryService = new CatalogQuery();
+        $catalogQueryService = new CatalogService();
         $product = $catalogQueryService->findProductById($productId);
 
         $response = new Response(json_encode($product), Response::HTTP_OK);

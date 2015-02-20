@@ -16,6 +16,22 @@ class Product extends BaseEntity
     protected $active;
 
     /**
+     * @var ProductContent
+     */
+    protected $productContent;
+
+
+    /**
+     * @var ProductSalesPrice
+     */
+    protected $productSalesPrice;
+
+    public function __construct() {
+        $this->productContent = new ProductContent();
+        $this->productSalesPrice = new ProductSalesPrice();
+    }
+
+    /**
      * @return mixed
      */
     public function getProductId()

@@ -14,8 +14,15 @@ class BaseEntity implements \JsonSerializable {
      */
     public function populate($entityData) {
         foreach($entityData as $field => $value) {
-            if(property_exists($this, $field)) {
+            if(property_exists($this, $field) && !is_object($this->{$field})) {
                 $this->{$field} = $value;
+            }
+        }
+
+        foreach($this as $field => $value) {
+            if(is_object($value)) {
+                /** @var BaseEntity $value */
+                $value->populate($entityData);
             }
         }
     }
@@ -31,7 +38,7 @@ class BaseEntity implements \JsonSerializable {
     {
         $result = array();
         foreach($this as $field => $value) {
-            $result[$field] = $value;
+            $result[$field] = $this->{$field};
         }
 
         return $result;

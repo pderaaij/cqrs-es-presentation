@@ -10,7 +10,7 @@ use CESPres\NLayer\Product\Models\Product;
  *
  * @author pderaaij
  */
-class CatalogQuery
+class CatalogService
 {
     
     private $databaseManager;
@@ -20,7 +20,13 @@ class CatalogQuery
     }
     
     public function findProductById($productId) {
-        $productData = $this->databaseManager->executeSearchQuery('select * from products where productId = ' . (int) $productId);
+        $productData = $this->databaseManager
+            ->executeSearchQuery("select *
+                                  from products p
+                                  join products_content pc ON p.productId = pc.productId
+                                  join products_sales_price psc ON p.productId = psc.productId
+                                  where p.productId = " . $productId
+            );
 
         if($productData === null) {
             throw new EntityNotFoundException("No product found with productId " . $productId);
