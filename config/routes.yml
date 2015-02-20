@@ -1,0 +1,18 @@
+homepage:
+    path:     /
+    defaults: { _controller: 'CESPres\Website\Controllers\Index::index' }
+
+product_view:
+    path:     /nlayer/product/{productId}
+    defaults: { _controller: 'CESPres\NLayer\Product\Controllers\ProductController::get' }
+    methods:  [GET]
+
+product_update:
+    path:     /nlayer/product/{productId}
+    defaults: { _controller: 'CESPres\NLayer\Product\Controllers\ProductController::post' }
+    methods:  [POST]
+
+product_create:
+    path:     /nlayer/product/{productId}
+    defaults: { _controller: 'CESPres\NLayer\Product\Controllers\ProductController::put' }
+    methods:  [PUT]
