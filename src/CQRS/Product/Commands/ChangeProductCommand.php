@@ -2,14 +2,25 @@
 namespace CESPres\CQRS\Product\Commands;
 
 
+use CESPres\CQRS\Product\DomainModel\Product;
+
 class ChangeProductCommand {
 
-    private $productId;
+    /**
+     * @var Product
+     */
+    private $product;
 
-    private $alterations;
-
-    public function __construct($productId, $productAlterations) {
-        $this->productId = $productId;
-        $this->alterations = $productAlterations;
+    public function __construct(Product $product) {
+        $this->product = $product;
     }
+
+    /**
+     * @return Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
 }
