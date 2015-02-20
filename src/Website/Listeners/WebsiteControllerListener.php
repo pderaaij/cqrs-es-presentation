@@ -4,6 +4,7 @@ namespace CESPres\Website\Listeners;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class WebsiteControllerListener {
 
@@ -24,8 +25,12 @@ class WebsiteControllerListener {
             }
 
             try {
-                json_decode($rawRequestBody);
+                $parsedBody = json_decode($rawRequestBody);
             } catch(\Exception $e) {
+                throw new BadRequestHttpException("Not a valid request body given. JSON expected");
+            }
+
+            if(!is_object($parsedBody)) {
                 throw new BadRequestHttpException("Not a valid request body given. JSON expected");
             }
         }
