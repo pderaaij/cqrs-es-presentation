@@ -7,6 +7,12 @@ require "./../vendor/autoload.php";
 
 define('SQLITE_DB_PATH', realpath(__DIR__ . '/../cqrs-es-db.sqlite'));
 
+
+$repository = new \CESPres\CQRS\Product\Repositories\ProductViewRepository();
+$queryBus = new \CESPres\CQRS\Core\ServiceBus\QueryBus();
+$queryBus->registerHandler(new \CESPres\CQRS\Product\QueryHandlers\ProductQueryHandler($repository));
+CESPres\Core\Registry\Register::register('query_bus', $queryBus);
+
 $routes = new Symfony\Component\Routing\RouteCollection();
 $locator = new FileLocator(array(__DIR__ . '/../config'));
 $loader = new YamlFileLoader($locator);
