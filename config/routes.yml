@@ -2,17 +2,22 @@ homepage:
     path:     /
     defaults: { _controller: 'CESPres\Website\Controllers\Index::index' }
 
-product_view:
+nlayer_product_view:
     path:     /nlayer/product/{productId}
     defaults: { _controller: 'CESPres\NLayer\Product\Controllers\ProductController::get' }
     methods:  [GET]
 
-product_update:
+nlayer_product_update:
     path:     /nlayer/product/{productId}
     defaults: { _controller: 'CESPres\NLayer\Product\Controllers\ProductController::post' }
     methods:  [POST]
 
-product_create:
+nlayer_product_create:
     path:     /nlayer/product/{productId}
     defaults: { _controller: 'CESPres\NLayer\Product\Controllers\ProductController::put' }
     methods:  [PUT]
+
+cqrs_product_view:
+    path:     /cqrs/product/{productId}
+    defaults: { _controller: 'CESPres\CQRS\Product\Controllers\ProductController::get' }
+    methods:  [GET]
