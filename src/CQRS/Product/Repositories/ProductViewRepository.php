@@ -16,7 +16,7 @@ class ProductViewRepository {
 
     public function get($productId) {
         $productData = $this->databaseManager
-            ->executeSearchQuery("select *
+            ->executeSearchQuery("select *, p.productId as productId
                                   from products p
                                   left join products_content pc ON p.productId = pc.productId
                                   left join products_sales_price psc ON p.productId = psc.productId

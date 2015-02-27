@@ -17,6 +17,11 @@ nlayer_product_create:
     defaults: { _controller: 'CESPres\NLayer\Product\Controllers\ProductController::put' }
     methods:  [PUT]
 
+cqrs_product_create:
+    path:     /cqrs/product
+    defaults: { _controller: 'CESPres\CQRS\Product\Controllers\ProductController::post' }
+    methods:  [POST]
+
 cqrs_product_view:
     path:     /cqrs/product/{productId}
     defaults: { _controller: 'CESPres\CQRS\Product\Controllers\ProductController::get' }
