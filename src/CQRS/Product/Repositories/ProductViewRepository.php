@@ -5,6 +5,7 @@ namespace CESPres\CQRS\Product\Repositories;
 use CESPres\Core\Exceptions\EntityNotFoundException;
 use CESPres\Core\Services\Database\Manager;
 use CESPres\Core\Services\Database\ReadManager;
+use CESPres\CQRS\Product\DomainModel\Product;
 use CESPres\CQRS\Product\DomainModel\ProductView;
 
 class ProductViewRepository {
@@ -28,6 +29,22 @@ class ProductViewRepository {
 
         $product = new ProductView();
         $product->populate($productData);
+
+        return $product;
+    }
+
+    public function sync(Product $product) {
+        $query = "insert or replace into products (
+                                      productId,
+                                      internalName,
+                                      active
+                                ) values (
+                                    " . $product->getProductId() . ",
+                                    " . $product->getInternalName() . ",
+                                    " . $product->getActive() . ")";
+
+        $this->databaseManager->updateQuery($query);
+
 
         return $product;
     }

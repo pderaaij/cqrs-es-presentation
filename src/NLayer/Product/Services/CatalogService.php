@@ -2,6 +2,7 @@
 namespace CESPres\NLayer\Product\Services;
 
 use CESPres\Core\Exceptions\EntityNotFoundException;
+use CESPres\Core\Services\Database\FullAccessManager;
 use CESPres\Core\Services\Database\Manager;
 use CESPres\NLayer\Product\Models\Product;
 
@@ -17,7 +18,7 @@ class CatalogService
     private $databaseManager;
     
     public function __construct() {
-        $this->databaseManager = new Manager();
+        $this->databaseManager = new FullAccessManager();
     }
 
     /**

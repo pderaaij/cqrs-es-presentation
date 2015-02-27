@@ -7,6 +7,7 @@ use CESPres\CQRS\Core\Command\CommandHandler;
 use CESPres\CQRS\Product\Commands\CreateProductCommand;
 use CESPres\CQRS\Product\DomainModel\Product;
 use CESPres\CQRS\Product\Repositories\ProductRepository;
+use CESPres\CQRS\Product\Repositories\ProductViewRepository;
 
 final class CreateProductCommandHandler implements CommandHandler {
 
@@ -15,8 +16,14 @@ final class CreateProductCommandHandler implements CommandHandler {
      */
     private $productRepository;
 
-    function __construct($productRepository) {
+    /**
+     * @var ProductViewRepository
+     */
+    private $productViewRepository;
+
+    function __construct(ProductRepository $productRepository, ProductViewRepository $viewRepository) {
         $this->productRepository = $productRepository;
+        $this->productViewRepository = $viewRepository;
     }
 
     public function isApplicableFor(Command $command) {
@@ -33,6 +40,7 @@ final class CreateProductCommandHandler implements CommandHandler {
         $product->setActive(false);
 
         $this->productRepository->add($product);
+        $this->productViewRepository->sync($product);
     }
 
 }
