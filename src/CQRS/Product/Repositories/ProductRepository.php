@@ -2,7 +2,7 @@
 namespace CESPres\CQRS\Product\Repositories;
 
 
-use CESPres\Core\Services\Database\Manager;
+use CESPres\Core\Services\Database\FullAccessManager;
 use CESPres\CQRS\Product\DomainModel\Product;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -15,7 +15,7 @@ class ProductRepository {
 
     function __construct()
     {
-        $this->databaseManager = new Manager();
+        $this->databaseManager = new FullAccessManager();
     }
 
     /**

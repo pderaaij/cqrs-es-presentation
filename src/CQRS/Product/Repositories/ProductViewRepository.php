@@ -4,6 +4,7 @@ namespace CESPres\CQRS\Product\Repositories;
 
 use CESPres\Core\Exceptions\EntityNotFoundException;
 use CESPres\Core\Services\Database\Manager;
+use CESPres\Core\Services\Database\ReadManager;
 use CESPres\CQRS\Product\DomainModel\ProductView;
 
 class ProductViewRepository {
@@ -11,15 +12,13 @@ class ProductViewRepository {
     private $databaseManager;
 
     public function __construct() {
-        $this->databaseManager = new Manager();
+        $this->databaseManager = new ReadManager();
     }
 
     public function get($productId) {
         $productData = $this->databaseManager
-            ->executeSearchQuery("select *, p.productId as productId
+            ->executeSearchQuery("select *
                                   from products p
-                                  left join products_content pc ON p.productId = pc.productId
-                                  left join products_sales_price psc ON p.productId = psc.productId
                                   where p.productId = " . $productId
             );
 

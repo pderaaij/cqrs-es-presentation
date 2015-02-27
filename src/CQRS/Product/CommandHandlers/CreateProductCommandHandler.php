@@ -8,7 +8,7 @@ use CESPres\CQRS\Product\Commands\CreateProductCommand;
 use CESPres\CQRS\Product\DomainModel\Product;
 use CESPres\CQRS\Product\Repositories\ProductRepository;
 
-class CreateProductCommandHandler implements CommandHandler {
+final class CreateProductCommandHandler implements CommandHandler {
 
     /**
      * @var ProductRepository
@@ -27,6 +27,7 @@ class CreateProductCommandHandler implements CommandHandler {
      * @param Command|CreateProductCommand $command
      */
     public function handle(Command $command) {
+        // @TODO: should create a product GUID
         $product = new Product();
         $product->setInternalName($command->getInternalName());
         $product->setActive(false);

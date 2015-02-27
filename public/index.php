@@ -4,6 +4,7 @@ require "./../vendor/autoload.php";
 
 define('CONFIG_PATH', realpath(__DIR__ . '/../config'));
 define('SQLITE_DB_PATH', realpath(__DIR__ . '/../cqrs-es-db.sqlite'));
+define('SQLITE_READ_DB_PATH', realpath(__DIR__ . '/../cqrs-read-db.sqlite'));
 
 
 $repository = new \CESPres\CQRS\Product\Repositories\ProductViewRepository();

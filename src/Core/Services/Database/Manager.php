@@ -6,13 +6,13 @@ namespace CESPres\Core\Services\Database;
  *
  * @author pderaaij
  */
-class Manager
+abstract class Manager
 {
     
     private $sqliteConnection;
     
-    public function __construct() {
-        $this->sqliteConnection = new \SQLite3(SQLITE_DB_PATH);
+    public function __construct(\SQLite3 $connection) {
+        $this->sqliteConnection = $connection;
         $this->sqliteConnection->enableExceptions(true);
     }
 
