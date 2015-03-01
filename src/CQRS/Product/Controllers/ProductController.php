@@ -26,7 +26,14 @@ class ProductController {
 
         return $response;
     }
-
+    
+    /**
+     * Method used to create a new product displaying immediate consistency.
+     * 
+     * @param Request $request
+     * @return Response
+     * @throws InvalidArgumentException
+     */
     public function post(Request $request) {
         $requestBody = json_decode($request->getContent());
 
