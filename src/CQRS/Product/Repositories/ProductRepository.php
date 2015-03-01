@@ -29,7 +29,7 @@ class ProductRepository {
         );
 
         try {
-            $this->databaseManager->insertQuery($query, $queryValues);
+            return $this->databaseManager->insertQuery($query, $queryValues);
         } catch(Exception $e) {
             // log exceptions
         }

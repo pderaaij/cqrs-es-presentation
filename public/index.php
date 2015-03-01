@@ -14,7 +14,7 @@ CESPres\Core\Registry\Register::register('query_bus', $queryBus);
 
 $productRepository = new \CESPres\CQRS\Product\Repositories\ProductRepository();
 $commandBus = new \CESPres\CQRS\Core\ServiceBus\CommandBus();
-$commandBus->registerHandler(new \CESPres\CQRS\Product\CommandHandlers\CreateProductCommandHandler($productRepository));
+$commandBus->registerHandler(new \CESPres\CQRS\Product\CommandHandlers\CreateProductCommandHandler($productRepository, $repository));
 CESPres\Core\Registry\Register::register('command_bus', $commandBus);
 
 \CESPres\Core\Bootstrap::boot();

@@ -9,6 +9,10 @@ use CESPres\CQRS\Product\DomainModel\Product;
 use CESPres\CQRS\Product\Repositories\ProductRepository;
 use CESPres\CQRS\Product\Repositories\ProductViewRepository;
 
+/**
+ * Demonstrating imediate consistency.
+ * 
+ */
 final class CreateProductCommandHandler implements CommandHandler {
 
     /**
@@ -39,7 +43,8 @@ final class CreateProductCommandHandler implements CommandHandler {
         $product->setInternalName($command->getInternalName());
         $product->setActive(false);
 
-        $this->productRepository->add($product);
+        $productId = $this->productRepository->add($product);
+        $product->setProductId($productId);
         $this->productViewRepository->sync($product);
     }
 
