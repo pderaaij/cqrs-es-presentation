@@ -7,6 +7,7 @@ use CESPres\Core\Registry\Register;
 use CESPres\ES\Product\Commands\CreateProductCommand;
 use CESPres\ES\Product\DomainModel\Product;
 use CESPres\ES\Product\Queries\ProductQuery;
+use CESPres\ES\Product\Repositories\ProductRepository;
 use InvalidArgumentException;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -22,8 +23,8 @@ class ProductController {
             throw new BadRequestHttpException("Invalid product id given");
         }
 
-        $productQuery = new ProductQuery($productId);
-        $product = Register::get('query_bus')->handle($productQuery);
+        $repo = new ProductRepository();
+        $product = $repo->find($productId);
 
         $response = new Response(json_encode($product), Response::HTTP_OK);
         $response->headers->set('Content-Type', 'application/json');
@@ -47,10 +48,10 @@ class ProductController {
 
         try {
             $productId = GUID::generate();
-            $createProductCommand = new CreateProductCommand($productId, $requestBody->internalName);
+            $createProductCommand = new CreateProductCommand($requestBody->internalName, $productId);
             Register::get('command_bus')->handle($createProductCommand);
 
-            $response = new RedirectResponse("/ES/product/" . $productId);
+            $response = new RedirectResponse("/es/product/" . $productId);
         } catch(Exception $e) {
             $response = new Response($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

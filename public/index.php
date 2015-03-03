@@ -12,13 +12,14 @@ if (strpos($_SERVER['REQUEST_URI'], '/es/') !== false) {
     define('SQLITE_DB_PATH', realpath(__DIR__ . '/../cqrs-es-eventstore.sqlite'));
 
     $repository = new \CESPres\ES\Product\Repositories\EventRepository();
-    $queryBus = new \CESPres\ES\Core\ServiceBus\QueryBus();
-    $queryBus->registerHandler(new \CESPres\ES\Product\QueryHandlers\ProductQueryHandler($repository));
-    CESPres\Core\Registry\Register::register('query_bus', $queryBus);
-
     $commandBus = new \CESPres\ES\Core\ServiceBus\CommandBus();
     $commandBus->registerHandler(new \CESPres\ES\Product\CommandHandlers\CreateProductCommandHandler($repository));
     CESPres\Core\Registry\Register::register('command_bus', $commandBus);
+
+    $eventBus = new \CESPres\ES\Core\Eventing\SimpleEventBus();
+    $productWasCreatedListener = new \CESPres\ES\Product\EventListeners\ProductCreatedEventListener();
+    $eventBus->subscribe($productWasCreatedListener);
+    CESPres\Core\Registry\Register::register('event_bus', $eventBus);
 
 } else {
     define('SQLITE_DB_PATH', realpath(__DIR__ . '/../cqrs-es-db.sqlite'));

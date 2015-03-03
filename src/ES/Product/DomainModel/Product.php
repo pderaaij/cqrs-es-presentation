@@ -28,5 +28,12 @@ class Product extends AggregateRoot {
         return $product;
     }
 
+    public function applyProductCreated(ProductCreatedEvent $event) {
+        $payload = $event->getPayload();
+
+        $this->productId = $event->getAggregateId();
+        $this->internalName = $payload['internalName'];
+        $this->active = $payload['active'];
+    }
 
 }

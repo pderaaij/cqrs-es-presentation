@@ -1,7 +1,7 @@
 <?php
 namespace CESPres\ES\Product\Repositories;
 
-
+use CESPres\Core\Registry\Register;
 use CESPres\Core\Services\Database\FullAccessManager;
 use CESPres\Core\Services\Database\Manager;
 use CESPres\ES\Core\DomainModel\AggregateRoot;
@@ -30,7 +30,13 @@ class EventRepository {
             );
 
             $this->manager->insertQuery($query, $queryValues);
+            Register::get('event_bus')->publish($message);
         }
+    }
+
+    public function findForAggegrateId($uuid) {
+        $query = "select * from events where uuid = '" . $uuid . "'";
+        return $this->manager->executeSearchQuery($query);
     }
 
 }
