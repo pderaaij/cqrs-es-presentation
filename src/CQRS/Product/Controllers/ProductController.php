@@ -2,19 +2,22 @@
 namespace CESPres\CQRS\Product\Controllers;
 
 
+use CESPres\Core\Generators\GUID;
 use CESPres\Core\Registry\Register;
 use CESPres\CQRS\Product\Commands\CreateProductCommand;
 use CESPres\CQRS\Product\Queries\ProductQuery;
 use InvalidArgumentException;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ProductController {
 
     public function get($productId) {
 
-        if(!is_numeric($productId)) {
+        if(empty($productId)) {
             throw new BadRequestHttpException("Invalid product id given");
         }
 
@@ -42,10 +45,11 @@ class ProductController {
         }
 
         try {
-            $createProductCommand = new CreateProductCommand($requestBody->internalName);
+            $productId = GUID::generate();
+            $createProductCommand = new CreateProductCommand($requestBody->internalName, $productId);
             Register::get('command_bus')->handle($createProductCommand);
 
-            $response = new Response(null, Response::HTTP_NO_CONTENT);
+            $response = new RedirectResponse("/cqrs/product/" . $productId);
         } catch(Exception $e) {
             $response = new Response($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }

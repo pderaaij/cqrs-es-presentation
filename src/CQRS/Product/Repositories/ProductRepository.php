@@ -20,16 +20,18 @@ class ProductRepository {
 
     /**
      * @param Product $product
+     * @return int
      */
     public function add(Product $product) {
-        $query = "INSERT INTO products (internalName, active) VALUES(:name, :active)";
+        $query = "INSERT INTO products (productId, internalName, active) VALUES(:productId, :name, :active)";
         $queryValues = array(
+            "productId" => $product->getProductId(),
             "name" => $product->getInternalName(),
             "active" => (int) $product->getActive()
         );
 
         try {
-            return $this->databaseManager->insertQuery($query, $queryValues);
+            $this->databaseManager->insertQuery($query, $queryValues);
         } catch(Exception $e) {
             // log exceptions
         }

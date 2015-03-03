@@ -8,9 +8,12 @@ class CreateProductCommand implements Command {
 
     private $internalName;
 
-    function __construct($internalName)
+    private $productId;
+
+    function __construct($internalName, $productId)
     {
         $this->internalName = $internalName;
+        $this->productId = $productId;
     }
 
     /**
@@ -19,6 +22,14 @@ class CreateProductCommand implements Command {
     public function getInternalName()
     {
         return $this->internalName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProductId()
+    {
+        return $this->productId;
     }
 
 }

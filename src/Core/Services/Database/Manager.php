@@ -43,7 +43,7 @@ abstract class Manager
         $statement = $this->sqliteConnection->prepare($query);
 
         foreach($queryValues as $field => $value) {
-            $statement->bindValue(':'.$field, $value);
+            $statement->bindValue(':'.$field, $this->sqliteConnection->escapeString($value));
         }
 
        $statement->execute();
@@ -60,7 +60,7 @@ abstract class Manager
         $statement = $this->sqliteConnection->prepare($query);
 
         foreach($queryValues as $field => $value) {
-            $statement->bindValue(':'.$field, $value);
+            $statement->bindValue(':'.$field, $this->sqliteConnection->escapeString($value));
         }
 
         $statement->execute();

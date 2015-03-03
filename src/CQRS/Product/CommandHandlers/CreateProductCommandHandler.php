@@ -38,13 +38,12 @@ final class CreateProductCommandHandler implements CommandHandler {
      * @param Command|CreateProductCommand $command
      */
     public function handle(Command $command) {
-        // @TODO: should create a product GUID
         $product = new Product();
+        $product->setProductId($command->getProductId());
         $product->setInternalName($command->getInternalName());
         $product->setActive(false);
 
-        $productId = $this->productRepository->add($product);
-        $product->setProductId($productId);
+        $this->productRepository->add($product);
         $this->productViewRepository->sync($product);
     }
 

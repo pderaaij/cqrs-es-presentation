@@ -19,8 +19,7 @@ class ProductViewRepository {
         $productData = $this->databaseManager
             ->executeSearchQuery("select *
                                   from products p
-                                  where p.productId = " . $productId
-            );
+                                  where p.productId = '" . $productId . "'");
 
         if($productData === null) {
             throw new EntityNotFoundException("No product found with productId " . $productId);
@@ -38,7 +37,7 @@ class ProductViewRepository {
      * @return Product
      */
     public function sync(Product $product) {
-        $existsQuery = "select * from products p where p.productId = " . $product->getProductId();
+        $existsQuery = "select * from products p where p.productId = '" . $product->getProductId() . "'";
         $exists = (null !== $this->databaseManager->executeSearchQuery($existsQuery));
         
         $values = array(
