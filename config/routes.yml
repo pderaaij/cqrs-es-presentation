@@ -26,3 +26,13 @@ cqrs_product_view:
     path:     /cqrs/product/{productId}
     defaults: { _controller: 'CESPres\CQRS\Product\Controllers\ProductController::get' }
     methods:  [GET]
+
+es_product_create:
+    path:     /es/product
+    defaults: { _controller: 'CESPres\ES\Product\Controllers\ProductController::post' }
+    methods:  [POST]
+
+es_product_view:
+    path:     /es/product/{productId}
+    defaults: { _controller: 'CESPres\ES\Product\Controllers\ProductController::get' }
+    methods:  [GET]
