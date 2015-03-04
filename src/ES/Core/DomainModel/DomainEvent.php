@@ -7,4 +7,6 @@ interface DomainEvent {
     function getAggregateId();
 
     function getPayload();
+
+    function deserialize(array $data);
 }

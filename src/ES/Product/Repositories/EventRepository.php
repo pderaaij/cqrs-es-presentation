@@ -35,8 +35,26 @@ class EventRepository {
     }
 
     public function findForAggegrateId($uuid) {
+        $result = array();
         $query = "select * from events where uuid = '" . $uuid . "'";
-        return $this->manager->executeSearchQuery($query);
+        $foundEvents = $this->manager->executeSearchQuery($query);
+
+        // @TODO
+        $foundEvents = array($foundEvents);
+
+        foreach($foundEvents as $event) {
+            $eventName = 'CESPres\ES\Product\Events\\' . $event['event'] . 'Event';
+
+            if (!class_exists($eventName)) {
+                continue;
+            }
+
+            $eventObject = new $eventName;
+            $eventObject->deserialize($event);
+            $result[] = $eventObject;
+        }
+
+        return $result;
     }
 
 }

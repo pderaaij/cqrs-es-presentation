@@ -10,7 +10,7 @@ class ProductCreatedEvent implements DomainEvent {
     private $internalName;
     private $active;
 
-    function __construct($productId, $internalName, $active) {
+    function __construct($productId = null, $internalName = null, $active = null) {
         $this->productId = $productId;
         $this->internalName = $internalName;
         $this->active = $active;
@@ -26,5 +26,13 @@ class ProductCreatedEvent implements DomainEvent {
             "active" => $this->active,
             "internalName" => $this->internalName
         );
+    }
+
+    function deserialize(array $data)
+    {
+        $this->productId = $data['uuid'];
+        $payload = json_decode($data['payload']);
+        $this->internalName = $payload->internalName;
+        $this->active = $payload->active;
     }
 }

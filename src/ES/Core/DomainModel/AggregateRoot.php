@@ -25,15 +25,13 @@ abstract class AggregateRoot implements \JsonSerializable {
         );
     }
 
-    public function rehydrate($event) {
-        $name =  'apply' . $event['event'];
+    public function rehydrate($events) {
+        foreach ($events as $event) {
+            $name = 'apply' . (new \ReflectionClass($event))->getShortName();
 
-        $payload = json_decode($event['payload']);
-        // @TODO How about no...
-        $e = new ProductCreatedEvent($event['uuid'], $payload->internalName, $payload->active);
-
-        if (method_exists($this, $name)) {
-            call_user_func(array($this, $name), $e);
+            if (method_exists($this, $name)) {
+                call_user_func(array($this, $name), $event);
+            }
         }
     }
 
