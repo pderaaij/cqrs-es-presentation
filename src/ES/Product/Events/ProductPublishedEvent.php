@@ -7,7 +7,6 @@ use CESPres\ES\Core\DomainModel\DomainEvent;
 class ProductPublishedEvent implements DomainEvent {
 
     private $productId;
-    private $active;
     private $sequence;
 
     function __construct($productId = null) {
@@ -20,15 +19,12 @@ class ProductPublishedEvent implements DomainEvent {
     }
 
     function getPayload() {
-        return array(
-            'active' => true
-        );
+        return array();
     }
 
     function deserialize(array $data)
     {
         $this->productId = $data['uuid'];
-        $this->active = true;
         $this->sequence = $data['sequence'];
     }
 
