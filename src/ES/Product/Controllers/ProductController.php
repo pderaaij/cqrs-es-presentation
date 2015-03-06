@@ -5,6 +5,7 @@ namespace CESPres\ES\Product\Controllers;
 use CESPres\Core\Generators\GUID;
 use CESPres\Core\Registry\Register;
 use CESPres\ES\Product\Commands\CreateProductCommand;
+use CESPres\ES\Product\Commands\PublishProductCommand;
 use CESPres\ES\Product\DomainModel\Product;
 use CESPres\ES\Product\Queries\ProductQuery;
 use CESPres\ES\Product\Repositories\ProductRepository;
@@ -55,6 +56,30 @@ class ProductController {
         } catch(Exception $e) {
             $response = new Response($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        return $response;
+    }
+
+    public function publish($productId, Request $request) {
+        $requestBody = json_decode($request->getContent());
+
+        if(empty($productId)) {
+            throw new BadRequestHttpException("Invalid product id given");
+        }
+
+        if ($productId !== $requestBody->productId) {
+            throw new BadRequestHttpException("Invalid body given");
+        }
+
+        try {
+            $publishProductCommand = new PublishProductCommand($productId);
+            Register::get('command_bus')->handle($publishProductCommand);
+
+            $response = new RedirectResponse("/es/product/" . $productId);
+        } catch(Exception $e) {
+            $response = new Response($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         return $response;
     }
 }

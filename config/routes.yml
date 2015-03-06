@@ -36,3 +36,8 @@ es_product_view:
     path:     /es/product/{productId}
     defaults: { _controller: 'CESPres\ES\Product\Controllers\ProductController::get' }
     methods:  [GET]
+
+es_product_publish:
+    path:     /es/product/{productId}/publish
+    defaults: { _controller: 'CESPres\ES\Product\Controllers\ProductController::publish' }
+    methods:  [POST]

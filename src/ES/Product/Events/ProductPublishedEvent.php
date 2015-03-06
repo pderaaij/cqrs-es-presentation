@@ -4,17 +4,14 @@ namespace CESPres\ES\Product\Events;
 
 use CESPres\ES\Core\DomainModel\DomainEvent;
 
-class ProductCreatedEvent implements DomainEvent {
+class ProductPublishedEvent implements DomainEvent {
 
     private $productId;
-    private $internalName;
     private $active;
     private $sequence;
 
-    function __construct($productId = null, $internalName = null, $active = null) {
+    function __construct($productId = null) {
         $this->productId = $productId;
-        $this->internalName = $internalName;
-        $this->active = $active;
     }
 
 
@@ -24,17 +21,14 @@ class ProductCreatedEvent implements DomainEvent {
 
     function getPayload() {
         return array(
-            "active" => $this->active,
-            "internalName" => $this->internalName
+            'active' => true
         );
     }
 
     function deserialize(array $data)
     {
         $this->productId = $data['uuid'];
-        $payload = json_decode($data['payload']);
-        $this->internalName = $payload->internalName;
-        $this->active = $payload->active;
+        $this->active = true;
         $this->sequence = $data['sequence'];
     }
 

@@ -8,7 +8,7 @@ class ProductRepository {
 
     public function find($uuid) {
         $repo = new EventRepository();
-        $events = $repo->findForAggegrateId($uuid);
+        $events = $repo->findForAggregateId($uuid);
 
         $product = new Product();
         $product->rehydrate($events);

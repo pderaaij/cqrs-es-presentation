@@ -17,6 +17,7 @@ abstract class AggregateRoot implements \JsonSerializable {
     private $sequence = -1;
 
     public function apply(DomainEvent $event) {
+        $this->sequence++;
         $this->uncommittedEvents[] = DomainMessage::record(
             $event->getAggregateId(),
             $this->sequence,
@@ -29,6 +30,7 @@ abstract class AggregateRoot implements \JsonSerializable {
         foreach ($events as $event) {
             $name = 'apply' . (new \ReflectionClass($event))->getShortName();
 
+            $this->sequence = $event->getSequence();
             if (method_exists($this, $name)) {
                 call_user_func(array($this, $name), $event);
             }

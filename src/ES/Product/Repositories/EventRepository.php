@@ -21,12 +21,13 @@ class EventRepository {
     public function add(AggregateRoot $aggregate) {
         /** @var DomainMessage $message */
         foreach($aggregate->getUncommittedEvents() as $message) {
-            $query = "INSERT INTO events (uuid, sequence, payload, recorded_on) VALUES (:uuid, :sequence, :payload, :recorded_on)";
+            $query = "INSERT INTO events (uuid, sequence, payload, recorded_on, event) VALUES (:uuid, :sequence, :payload, :recorded_on, :event)";
             $queryValues = array(
                 'uuid' => $message->getUuid(),
                 'sequence' => $message->getSequence(),
                 'payload' => json_encode($message->getPayload()),
-                'recorded_on' => $message->getRecordedOn()
+                'recorded_on' => $message->getRecordedOn(),
+                'event' =>  (new \ReflectionClass($message->getEvent()))->getShortName()
             );
 
             $this->manager->insertQuery($query, $queryValues);
@@ -34,16 +35,22 @@ class EventRepository {
         }
     }
 
-    public function findForAggegrateId($uuid) {
+    public function load($aggregateId, $clazz) {
+        $events = $this->findForAggregateId($aggregateId);
+
+        $aggregate = new $clazz();
+        $aggregate->rehydrate($events);
+
+        return $aggregate;
+    }
+
+    public function findForAggregateId($uuid) {
         $result = array();
-        $query = "select * from events where uuid = '" . $uuid . "'";
+        $query = "select * from events where uuid = '" . $uuid . "' order by sequence";
         $foundEvents = $this->manager->executeSearchQuery($query);
 
-        // @TODO
-        $foundEvents = array($foundEvents);
-
         foreach($foundEvents as $event) {
-            $eventName = 'CESPres\ES\Product\Events\\' . $event['event'] . 'Event';
+            $eventName = 'CESPres\ES\Product\Events\\' . $event['event'];
 
             if (!class_exists($eventName)) {
                 continue;

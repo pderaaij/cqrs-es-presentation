@@ -4,6 +4,7 @@ namespace CESPres\ES\Product\DomainModel;
 
 use CESPres\ES\Core\DomainModel\AggregateRoot;
 use CESPres\ES\Product\Events\ProductCreatedEvent;
+use CESPres\ES\Product\Events\ProductPublishedEvent;
 
 class Product extends AggregateRoot {
 
@@ -13,8 +14,15 @@ class Product extends AggregateRoot {
 
     protected $active;
 
+    /**
+     * Create a new product.
+     *
+     * @param $productId
+     * @param $internalName
+     * @param $active
+     * @return Product
+     */
     public static function create($productId, $internalName, $active) {
-
         if (empty($internalName)) {
             throw new \InvalidArgumentException("Name is mandatory");
         }
@@ -28,12 +36,27 @@ class Product extends AggregateRoot {
         return $product;
     }
 
+    /**
+     * Publish a product so it becomes active
+     */
+    public function publish() {
+        if (!$this->active) {
+            $this->apply(
+                new ProductPublishedEvent($this->productId)
+            );
+        }
+    }
+
     public function applyProductCreatedEvent(ProductCreatedEvent $event) {
         $payload = $event->getPayload();
 
         $this->productId = $event->getAggregateId();
         $this->internalName = $payload['internalName'];
         $this->active = $payload['active'];
+    }
+
+    public function applyProductPublishedEvent(ProductPublishedEvent $event) {
+        $this->active = true;
     }
 
 }

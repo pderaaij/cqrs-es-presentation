@@ -24,13 +24,17 @@ abstract class Manager
      */
     public function executeSearchQuery($query) {
         $queryResult = $this->sqliteConnection->query($query);
-        $resultSet = $queryResult->fetchArray(SQLITE3_ASSOC);
+        $resultSet = array();
 
-        if ($resultSet !== false) {
-            return $resultSet;
+        while($result = $queryResult->fetchArray(SQLITE3_ASSOC)) {
+            $resultSet[] = $result;
         }
 
-        return null;
+        if (count($resultSet) === 0) {
+            return null;
+        }
+
+        return $resultSet;
     }
 
     /**

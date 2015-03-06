@@ -8,5 +8,7 @@ interface DomainEvent {
 
     function getPayload();
 
+    function getSequence();
+
     function deserialize(array $data);
 }

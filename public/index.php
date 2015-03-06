@@ -14,6 +14,7 @@ if (strpos($_SERVER['REQUEST_URI'], '/es/') !== false) {
     $repository = new \CESPres\ES\Product\Repositories\EventRepository();
     $commandBus = new \CESPres\ES\Core\ServiceBus\CommandBus();
     $commandBus->registerHandler(new \CESPres\ES\Product\CommandHandlers\CreateProductCommandHandler($repository));
+    $commandBus->registerHandler(new \CESPres\ES\Product\CommandHandlers\PublishProductCommandHandler($repository));
     CESPres\Core\Registry\Register::register('command_bus', $commandBus);
 
     $eventBus = new \CESPres\ES\Core\Eventing\SimpleEventBus();
