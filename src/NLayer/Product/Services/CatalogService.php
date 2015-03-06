@@ -40,7 +40,7 @@ class CatalogService
         }
 
         $product = new Product();
-        $product->populate($productData);
+        $product->populate($productData[0]);
 
         return $product;
     }
