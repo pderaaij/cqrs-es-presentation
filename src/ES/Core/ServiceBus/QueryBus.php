@@ -13,6 +13,11 @@ class QueryBus {
      */
     private $handlers = array();
 
+    /**
+     * @param QueryCommand $command
+     * @return mixed
+     * @throws QueryHandlerNotFoundException
+     */
     public function handle(QueryCommand $command) {
         foreach($this->handlers as $handler) {
             if ($handler->isApplicableFor($command)) {
@@ -23,6 +28,9 @@ class QueryBus {
         throw new QueryHandlerNotFoundException("No handler defined for query " . get_class($command));
     }
 
+    /**
+     * @param QueryHandler $queryHandler
+     */
     public function registerHandler(QueryHandler $queryHandler) {
         $this->handlers[] = $queryHandler;
     }

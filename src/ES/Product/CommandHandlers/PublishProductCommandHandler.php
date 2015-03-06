@@ -9,7 +9,7 @@ use CESPres\ES\Product\Repositories\EventRepository;
 use CESPres\ES\Product\Repositories\ProductViewRepository;
 
 /**
- * Demonstrating imediate consistency.
+ * Handle product publish command.
  * 
  */
 final class PublishProductCommandHandler implements CommandHandler {

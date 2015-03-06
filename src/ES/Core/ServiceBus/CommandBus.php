@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: pderaaij
- * Date: 27-2-15
- * Time: 9:08
- */
-
 namespace CESPres\ES\Core\ServiceBus;
 
 
@@ -20,6 +13,11 @@ class CommandBus {
      */
     private $commandHandlers = array();
 
+    /**
+     * @param Command $command
+     * @return mixed
+     * @throws CommandHandlerNotFoundException
+     */
     public function handle(Command $command) {
         foreach($this->commandHandlers as $handler) {
             if ($handler->isApplicableFor($command)) {
@@ -30,6 +28,9 @@ class CommandBus {
         throw new CommandHandlerNotFoundException("No handler defined for query " . get_class($command));
     }
 
+    /**
+     * @param CommandHandler $handler
+     */
     public function registerHandler(CommandHandler $handler) {
         $this->commandHandlers[] = $handler;
     }

@@ -2,8 +2,6 @@
 namespace CESPres\ES\Core\DomainModel;
 
 
-use CESPres\ES\Product\Events\ProductCreatedEvent;
-
 abstract class AggregateRoot implements \JsonSerializable {
 
     /**
@@ -16,6 +14,10 @@ abstract class AggregateRoot implements \JsonSerializable {
      */
     private $sequence = -1;
 
+    /**
+     * Apply the event on the aggregate.
+     * @param DomainEvent $event
+     */
     public function apply(DomainEvent $event) {
         $this->sequence++;
         $this->uncommittedEvents[] = DomainMessage::record(
@@ -26,6 +28,11 @@ abstract class AggregateRoot implements \JsonSerializable {
         );
     }
 
+    /**
+     * Replay all events to rehydrate the aggregate to its latest state.
+     *
+     * @param DomainEvent[] $events
+     */
     public function rehydrate($events) {
         foreach ($events as $event) {
             $name = 'apply' . (new \ReflectionClass($event))->getShortName();
@@ -38,7 +45,7 @@ abstract class AggregateRoot implements \JsonSerializable {
     }
 
     /**
-     * @return array
+     * @return DomainEvent[]
      */
     public function getUncommittedEvents() {
         return $this->uncommittedEvents;

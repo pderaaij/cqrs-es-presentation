@@ -47,6 +47,10 @@ class Product extends AggregateRoot {
         }
     }
 
+    /**
+     * Apply the product create event.
+     * @param ProductCreatedEvent $event
+     */
     public function applyProductCreatedEvent(ProductCreatedEvent $event) {
         $payload = $event->getPayload();
 
@@ -55,6 +59,9 @@ class Product extends AggregateRoot {
         $this->active = $payload['active'];
     }
 
+    /**
+     * @param ProductPublishedEvent $event
+     */
     public function applyProductPublishedEvent(ProductPublishedEvent $event) {
         $this->active = true;
     }

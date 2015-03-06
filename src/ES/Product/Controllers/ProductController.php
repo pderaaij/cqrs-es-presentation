@@ -18,6 +18,13 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ProductController {
 
+    /**
+     * Fetch a product using re-hydration mechanism. This means we fetch the aggregate events
+     * and replay that for each retrieval.
+     *
+     * @param $productId
+     * @return Response
+     */
     public function get($productId) {
 
         if(empty($productId)) {
@@ -60,6 +67,11 @@ class ProductController {
         return $response;
     }
 
+    /**
+     * @param $productId
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
     public function publish($productId, Request $request) {
         $requestBody = json_decode($request->getContent());
 

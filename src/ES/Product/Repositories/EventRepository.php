@@ -7,6 +7,11 @@ use CESPres\Core\Services\Database\Manager;
 use CESPres\ES\Core\DomainModel\AggregateRoot;
 use CESPres\ES\Core\DomainModel\DomainMessage;
 
+/**
+ * Repository for all event actions.
+ *
+ * @package CESPres\ES\Product\Repositories
+ */
 class EventRepository {
 
     /**
@@ -18,6 +23,9 @@ class EventRepository {
         $this->manager = new FullAccessManager(SQLITE_DB_PATH);
     }
 
+    /**
+     * @param AggregateRoot $aggregate
+     */
     public function add(AggregateRoot $aggregate) {
         /** @var DomainMessage $message */
         foreach($aggregate->getUncommittedEvents() as $message) {
@@ -35,15 +43,29 @@ class EventRepository {
         }
     }
 
+    /**
+     * Load the given aggregate with event state.
+     *
+     * @param $aggregateId
+     * @param $clazz
+     * @return mixed
+     */
     public function load($aggregateId, $clazz) {
         $events = $this->findForAggregateId($aggregateId);
 
+        /** @var AggregateRoot $aggregate */
         $aggregate = new $clazz();
         $aggregate->rehydrate($events);
 
         return $aggregate;
     }
 
+    /**
+     * Find all events for the given aggregate identifier.
+     *
+     * @param $uuid
+     * @return array
+     */
     public function findForAggregateId($uuid) {
         $result = array();
         $query = "select * from events where uuid = '" . $uuid . "' order by sequence";

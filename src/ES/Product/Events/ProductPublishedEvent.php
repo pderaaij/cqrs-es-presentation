@@ -1,9 +1,12 @@
 <?php
 namespace CESPres\ES\Product\Events;
 
-
 use CESPres\ES\Core\DomainModel\DomainEvent;
 
+/**
+ * Class ProductPublishedEvent
+ * @package CESPres\ES\Product\Events
+ */
 class ProductPublishedEvent implements DomainEvent {
 
     private $productId;

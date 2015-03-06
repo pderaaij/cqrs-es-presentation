@@ -4,6 +4,10 @@ namespace CESPres\ES\Product\Commands;
 
 use CESPres\ES\Core\Command\Command;
 
+/**
+ * Class CreateProductCommand
+ * @package CESPres\ES\Product\Commands
+ */
 class CreateProductCommand implements Command {
 
     private $internalName;

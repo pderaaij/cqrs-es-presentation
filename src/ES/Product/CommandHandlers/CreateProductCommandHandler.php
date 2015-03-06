@@ -11,7 +11,7 @@ use CESPres\ES\Product\Repositories\ProductViewRepository;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Demonstrating imediate consistency.
+ * Simple command demonstrating immediate consistency
  * 
  */
 final class CreateProductCommandHandler implements CommandHandler {
@@ -25,6 +25,10 @@ final class CreateProductCommandHandler implements CommandHandler {
         $this->eventRepository = $productRepository;
     }
 
+    /**
+     * @param Command $command
+     * @return bool
+     */
     public function isApplicableFor(Command $command) {
         return $command instanceof CreateProductCommand;
     }
