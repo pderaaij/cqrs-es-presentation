@@ -47,6 +47,12 @@ class Product extends AggregateRoot {
         }
     }
 
+    public function pricing($exclVat, $inclVat) {
+        $this->apply(
+          new ProductPricedEvent($this->productId, $exclVat, $inclVat)
+        );
+    }
+
     /**
      * Apply the product create event.
      * @param ProductCreatedEvent $event
