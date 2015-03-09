@@ -1,7 +1,6 @@
 <?php
 namespace CESPres\CQRS\Product\Repositories;
 
-
 use CESPres\Core\Services\Database\FullAccessManager;
 use CESPres\CQRS\Product\DomainModel\Product;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -15,7 +14,7 @@ class ProductRepository {
 
     function __construct()
     {
-        $this->databaseManager = new FullAccessManager();
+        $this->databaseManager = new FullAccessManager(SQLITE_DB_PATH);
     }
 
     /**

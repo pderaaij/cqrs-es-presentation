@@ -4,6 +4,7 @@ namespace CESPres\ES\Product\DomainModel;
 
 use CESPres\ES\Core\DomainModel\AggregateRoot;
 use CESPres\ES\Product\Events\ProductCreatedEvent;
+use CESPres\ES\Product\Events\ProductPricedEvent;
 use CESPres\ES\Product\Events\ProductPublishedEvent;
 
 class Product extends AggregateRoot {
@@ -13,6 +14,11 @@ class Product extends AggregateRoot {
     protected $internalName;
 
     protected $active;
+
+    /**
+     * @var ProductSalesPrice
+     */
+    protected $salesPrice;
 
     /**
      * Create a new product.
@@ -70,6 +76,11 @@ class Product extends AggregateRoot {
      */
     public function applyProductPublishedEvent(ProductPublishedEvent $event) {
         $this->active = true;
+    }
+
+    public function applyProductPricedEvent(ProductPricedEvent $event) {
+        $priceData = $event->getPayload();
+        $this->salesPrice = new ProductSalesPrice($priceData['salesPriceInclVat'],$priceData['salesPriceExclVat']);
     }
 
 }

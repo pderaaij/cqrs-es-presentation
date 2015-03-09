@@ -10,16 +10,20 @@ define('SQLITE_READ_DB_PATH', realpath(__DIR__ . '/../cqrs-read-db.sqlite'));
 
 if (strpos($_SERVER['REQUEST_URI'], '/es/') !== false) {
     define('SQLITE_DB_PATH', realpath(__DIR__ . '/../cqrs-es-eventstore.sqlite'));
+    define('SQLITE_PROJECTION_STORE_PATH', realpath(__DIR__ . '/../cqrs-projection-store.sqlite'));
 
     $repository = new \CESPres\ES\Product\Repositories\EventRepository();
     $commandBus = new \CESPres\ES\Core\ServiceBus\CommandBus();
     $commandBus->registerHandler(new \CESPres\ES\Product\CommandHandlers\CreateProductCommandHandler($repository));
     $commandBus->registerHandler(new \CESPres\ES\Product\CommandHandlers\PublishProductCommandHandler($repository));
+    $commandBus->registerHandler(new \CESPres\ES\Product\CommandHandlers\PriceProductCommandHandler($repository));
     CESPres\Core\Registry\Register::register('command_bus', $commandBus);
 
     $eventBus = new \CESPres\ES\Core\Eventing\SimpleEventBus();
     $productWasCreatedListener = new \CESPres\ES\Product\EventListeners\ProductCreatedEventListener();
+    $productProjector = new \CESPres\ES\Product\Projectors\ProductProjector();
     $eventBus->subscribe($productWasCreatedListener);
+    $eventBus->subscribe($productProjector);
     CESPres\Core\Registry\Register::register('event_bus', $eventBus);
 
 } else {

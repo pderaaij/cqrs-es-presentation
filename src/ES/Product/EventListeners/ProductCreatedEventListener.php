@@ -12,7 +12,5 @@ class ProductCreatedEventListener implements EventListener {
         if (!$message->getEvent() instanceof ProductCreatedEvent) {
             return;
         }
-
-        // @TODO build read model
     }
 }

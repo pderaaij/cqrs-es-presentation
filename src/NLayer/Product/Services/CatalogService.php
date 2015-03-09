@@ -18,7 +18,7 @@ class CatalogService
     private $databaseManager;
     
     public function __construct() {
-        $this->databaseManager = new FullAccessManager();
+        $this->databaseManager = new FullAccessManager(SQLITE_DB_PATH);
     }
 
     /**

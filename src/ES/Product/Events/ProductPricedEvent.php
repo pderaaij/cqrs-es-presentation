@@ -12,39 +12,34 @@ class ProductPricedEvent implements DomainEvent {
 
     private $sequence;
 
-    function __construct($productId, $exclVat, $inclVat)
-    {
+    function __construct($productId = null, $exclVat = null, $inclVat = null) {
         $this->productId = $productId;
         $this->exclVat = $exclVat;
         $this->inclVat = $inclVat;
     }
 
 
-    function getAggregateId()
-    {
+    function getAggregateId() {
         return $this->productId;
     }
 
-    function getPayload()
-    {
+    function getPayload() {
         return array(
-            "exclVat" => $this->exclVat,
-            "inclVat" => $this->inclVat
+            "salesPriceExclVat" => $this->exclVat,
+            "salesPriceInclVat" => $this->inclVat
         );
     }
 
-    function getSequence()
-    {
+    function getSequence() {
         return $this->sequence;
     }
 
-    function deserialize(array $data)
-    {
+    function deserialize(array $data) {
         $this->productId = $data['uuid'];
         $this->sequence = $data['sequence'];
 
         $payload = json_decode($data['payload']);
-        $this->exclVat = $payload->exclVat;
-        $this->inclVat = $payload->inclVat;
+        $this->exclVat = $payload->salesPriceExclVat;
+        $this->inclVat = $payload->salesPriceInclVat;
     }
 }
